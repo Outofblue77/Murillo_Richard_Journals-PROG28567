@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
 
     public int numberOfTrailBombs;
     public float spacingbombTrailSpacing;
+    public float warpAmount;
 
     // Update is called once per frame
     void Update()
@@ -22,6 +23,11 @@ public class Player : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.N))
         {
             CornerBombs();
+        }
+
+        if (Input.GetKeyUp(KeyCode.M))
+        {
+            WarpPlayerToTarget();
         }
 
     }
@@ -45,6 +51,16 @@ public class Player : MonoBehaviour
         randomOffset.x = (Random.Range(0, 2)*2-1);
         randomOffset.y = (Random.Range(0, 2)*2-1);
         Instantiate(bombPrefab, transform.position + randomOffset, Quaternion.identity);
+    }
+
+    private void WarpPlayerToTarget ()
+    {
+        Vector3 currentPosition = transform.position; //capture current position
+        Vector3 targetPosition = enemyTransform.position; //capture enemy position
+
+        transform.position = Vector3.Lerp (currentPosition, targetPosition, warpAmount);
+        //warp using lerp with it being able to control from unity
+
     }
 
 }
