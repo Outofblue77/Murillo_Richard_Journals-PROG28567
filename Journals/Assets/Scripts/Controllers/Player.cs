@@ -63,4 +63,14 @@ public class Player : MonoBehaviour
 
     }
 
+    //private void DetectAstroid (float inRange, List<Transform>inAsteroid)
+    //{
+        //Vector3 currentPosition = transform.position;
+
+        //Vector3 aestroidPosition = aestroidTransform;
+
+        //Debug.DrawLine (currentPosition, aestroidPosition, Color.blue);
+
+    //}
+
 }
