@@ -7,10 +7,17 @@ public class Player : MonoBehaviour
     public Transform enemyTransform;
     public GameObject bombPrefab;
     public List<Transform> asteroidTransforms;
+    public Transform bombsTransform;
 
     public int numberOfTrailBombs;
     public float spacingbombTrailSpacing;
     public float warpAmount;
+
+    public float maxSpeed = 1f;
+    public float accelerationTime = 1f;
+    private Vector3 velocity;
+    private float acceleration;
+
 
     // Update is called once per frame
     void Update()
@@ -29,6 +36,8 @@ public class Player : MonoBehaviour
         {
             WarpPlayerToTarget();
         }
+
+        PlayerMovement();
 
     }
 
@@ -63,13 +72,39 @@ public class Player : MonoBehaviour
 
     }
 
+    private void PlayerMovement ()
+    {
+        acceleration = maxSpeed / accelerationTime;
+
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            velocity += acceleration * Time.deltaTime * Vector3.left;
+        }
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            velocity += acceleration * Time.deltaTime * Vector3.up;
+        }
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            velocity += acceleration * Time.deltaTime * Vector3.down;
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            velocity += acceleration * Time.deltaTime * Vector3.right;
+        }
+
+        velocity = Vector3.ClampMagnitude(velocity, maxSpeed);
+        transform.position += Time.deltaTime * velocity;
+
+    }
+
     //private void DetectAstroid (float inRange, List<Transform>inAsteroid)
     //{
-        //Vector3 currentPosition = transform.position;
+    //Vector3 currentPosition = transform.position;
 
-        //Vector3 aestroidPosition = aestroidTransform;
+    //Vector3 aestroidPosition = aestroidTransform;
 
-        //Debug.DrawLine (currentPosition, aestroidPosition, Color.blue);
+    //Debug.DrawLine (currentPosition, aestroidPosition, Color.blue);
 
     //}
 
