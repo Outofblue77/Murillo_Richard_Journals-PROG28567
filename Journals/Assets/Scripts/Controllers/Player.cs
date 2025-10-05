@@ -18,6 +18,11 @@ public class Player : MonoBehaviour
     private Vector3 velocity;
     private float acceleration;
 
+    //Radar
+    public int numberOfPointsForRadar = 6;
+    public float radarRadius = 2f;
+    public List<Transform> enemies;
+
 
     // Update is called once per frame
     void Update()
@@ -39,6 +44,7 @@ public class Player : MonoBehaviour
 
         PlayerMovement();
 
+        Radar();
     }
 
     private void SpawnBombAtOffset(Vector3 inOffset) //Added private
@@ -98,14 +104,38 @@ public class Player : MonoBehaviour
 
     }
 
-    //private void DetectAstroid (float inRange, List<Transform>inAsteroid)
-    //{
-    //Vector3 currentPosition = transform.position;
+    private void Radar ()
+    {
+        if (numberOfPointsForRadar < 3) return;
+        //Making sure its a circle and not just a line. 
 
-    //Vector3 aestroidPosition = aestroidTransform;
+        bool enemyInRange = false;
 
-    //Debug.DrawLine (currentPosition, aestroidPosition, Color.blue);
+        if (enemies != null)
+        {
+            foreach (Transform enemy in enemies)
+            {
+                if (enemy && Vector3.Distance(transform.position, enemy.position) <= radarRadius)
+                {
+                    enemyInRange = true;
+                    break;
+                }
+            }
+        }
 
-    //}
+        Color color = enemyInRange ? Color.red : Color.green;
+
+        Vector3 prevPoint = transform.position + new Vector3(radarRadius, 0f, 0f);
+
+        for (int i = 1; i <= numberOfPointsForRadar; i++)
+        {
+            float angle = (i / (float)numberOfPointsForRadar) * Mathf.PI * 2f;
+            Vector3 nextPoint = transform.position + new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f) * radarRadius;
+
+            Debug.DrawLine(prevPoint, nextPoint, color);
+            prevPoint = nextPoint;
+        }
+
+    }
 
 }
