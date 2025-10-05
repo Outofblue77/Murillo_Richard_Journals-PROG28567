@@ -23,6 +23,11 @@ public class Player : MonoBehaviour
     public float radarRadius = 2f;
     public List<Transform> enemies;
 
+    //Powerups
+    public GameObject powerUpsPrefab;
+    public int numberOfPowerUps = 0;
+    public float distanceRadius = 1f;
+
 
     // Update is called once per frame
     void Update()
@@ -40,6 +45,12 @@ public class Player : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.M))
         {
             WarpPlayerToTarget();
+        }
+        
+        //Spawning Powers
+        if (Input.GetKeyUp(KeyCode.P)) 
+        {
+            SpawningPowers();
         }
 
         PlayerMovement();
@@ -138,4 +149,16 @@ public class Player : MonoBehaviour
 
     }
 
+    private void SpawningPowers ()
+    {
+        for (int i = 0; i < numberOfPowerUps; i++)
+        {
+            // Create positions for each one by deviding it then multiplying it by circle
+            float angle = (i / (float)numberOfPowerUps) * Mathf.PI * 2f;
+
+            Vector3 spawnPos = transform.position + new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f) * distanceRadius;
+
+            Instantiate(powerUpsPrefab, spawnPos, Quaternion.identity);
+        }
+    }
 }
