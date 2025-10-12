@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\Controllers\Moon.cs" />
     <Compile Include="Assets\Scripts\Controllers\Player.cs" />
     <Compile Include="Assets\Scripts\Controllers\Enemy.cs" />
+    <Compile Include="Assets\Scripts\Abilities\forceField.cs" />
     <Compile Include="Assets\Scripts\Test.cs" />
   </ItemGroup>
   <ItemGroup>
