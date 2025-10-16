@@ -31,7 +31,6 @@ public class moonGravity : MonoBehaviour
         bool isIdle = Vector3.Distance(player.position, lastPosition) < idleTreshHold;
         lastPosition = player.position;
 
-        // If idle and within pull zone → move down
         if (isIdle && player.position.y <= gravityDistance)
         {
             player.position += Vector3.down * gravtyForce * Time.deltaTime;
