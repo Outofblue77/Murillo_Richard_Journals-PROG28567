@@ -63,7 +63,8 @@ public class Player : MonoBehaviour
 
         PlayerMovement();
 
-        Radar();
+        //Radar(); //Turnign off radar Experiment for this project
+        
     }
 
     private void SpawnBombAtOffset(Vector3 inOffset) //Added private
