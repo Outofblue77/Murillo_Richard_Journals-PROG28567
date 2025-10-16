@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 
 public class Player : MonoBehaviour
@@ -13,10 +14,11 @@ public class Player : MonoBehaviour
     public float spacingbombTrailSpacing;
     public float warpAmount;
 
-    public float maxSpeed = 1f;
-    public float accelerationTime = 1f;
+    //Player Movement
+    public float maxSpeed;
+    public float accelerationTime, decelerationTime;
     private Vector3 velocity;
-    private float acceleration;
+    private float acceleration, deceleration;
 
     //Radar
     public int numberOfPointsForRadar = 6;
@@ -28,6 +30,12 @@ public class Player : MonoBehaviour
     public int numberOfPowerUps = 0;
     public float distanceRadius = 1f;
 
+
+    private void Start() 
+    {
+        acceleration = maxSpeed / accelerationTime;
+        deceleration = maxSpeed / decelerationTime;
+    }
 
     // Update is called once per frame
     void Update()
@@ -91,27 +99,48 @@ public class Player : MonoBehaviour
 
     private void PlayerMovement ()
     {
-        acceleration = maxSpeed / accelerationTime;
+        Vector2 playerInput = Vector2.zero;
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            velocity += acceleration * Time.deltaTime * Vector3.left;
+            playerInput += Vector2.left;
         }
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            velocity += acceleration * Time.deltaTime * Vector3.up;
+            playerInput += Vector2.up;
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            velocity += acceleration * Time.deltaTime * Vector3.down;
+            playerInput += Vector2.down;
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            velocity += acceleration * Time.deltaTime * Vector3.right;
+            playerInput += Vector2.right;
         }
 
-        velocity = Vector3.ClampMagnitude(velocity, maxSpeed);
-        transform.position += Time.deltaTime * velocity;
+        if (playerInput.magnitude > 0)
+        {
+            velocity += (Vector3)playerInput.normalized * acceleration * Time.deltaTime;
+
+            if (velocity.magnitude > maxSpeed)
+            {
+                velocity = velocity.normalized * maxSpeed;
+            }
+        }
+        else
+        {
+            Vector3 changeInVelocity = velocity.normalized * deceleration * Time.deltaTime;
+            if (changeInVelocity.magnitude > velocity.magnitude)
+            {
+                velocity = Vector3.zero;
+            }
+            else 
+            {
+                velocity -= changeInVelocity;
+            }
+        }
+
+        transform.position += velocity * Time.deltaTime;
 
     }
 
