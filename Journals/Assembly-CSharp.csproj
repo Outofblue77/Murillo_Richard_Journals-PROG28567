@@ -63,8 +63,10 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\CannonballController.cs" />
     <Compile Include="Assets\Scripts\Controllers\Moon.cs" />
+    <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Controllers\Player.cs" />
     <Compile Include="Assets\Scripts\Abilities\moonGravity.cs" />
+    <Compile Include="Assets\Scripts\PlayerVisuals.cs" />
     <Compile Include="Assets\Scripts\GunshipController.cs" />
     <Compile Include="Assets\Scripts\ScoreboardController.cs" />
     <Compile Include="Assets\Scripts\Controllers\Enemy.cs" />
