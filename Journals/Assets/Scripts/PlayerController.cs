@@ -32,6 +32,10 @@ public class PlayerController : MonoBehaviour
     private float jumpVelocity;
     private bool isJumping = false;
 
+    [Header("Coyote Time Settings")]
+    public float coyoteTime = 0.1f;
+    private float coyoteTimer = 0f;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -71,7 +75,16 @@ public class PlayerController : MonoBehaviour
     {
         bool grounded = IsGrounded();
 
-        if (grounded && jumpPressed == 1 && !isJumping)
+        if (grounded)
+        {
+            coyoteTimer = coyoteTime;
+        }
+        else
+        { 
+            coyoteTimer -= Time.deltaTime;
+        }
+
+        if ((grounded || coyoteTimer > 0f) && jumpPressed == 1 && !isJumping)
         {
             isJumping = true;
             rb.gravityScale = 0f;
