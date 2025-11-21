@@ -7,24 +7,27 @@ public class PlayerController : MonoBehaviour
         left, right
     }
 
-    //movement
+    [Header("Movement")]
     public float moveSpeed = 5f;
 
-    //Ground Check
+    [Header("Ground Check")]
     public Transform groundCheck;
     public float groundRadius = 0.1f;
     public LayerMask groundLayer;
 
-    //Rigid Body
+    [Header("Rigid Body")]
     private Rigidbody2D rb;
     private float currentHorizontalInput = 0f;
     private FacingDirection facing = FacingDirection.right;
 
-    //Jump Settings
+    [Header("Jump Settings")]
     public float apexHeight = 3.5f;
     public float apexTime = 0.5f;
 
-    //Gravity
+    [Header("Fall Settings")]
+    public float terminalSpeed = -15f;
+
+    [Header("Gravity")]
     private float gravity;
     private float jumpVelocity;
     private bool isJumping = false;
@@ -84,6 +87,11 @@ public class PlayerController : MonoBehaviour
                 rb.gravityScale = 1f;
                 isJumping = false;
             }
+        }
+
+        if (!grounded && rb.linearVelocity.y < terminalSpeed)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, terminalSpeed);
         }
     }
     public bool IsWalking()
